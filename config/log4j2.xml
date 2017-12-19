@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <RollingFile name="RollingFile"
+                     fileName="/data1/proserv/LogAggregator/logs/logAggregator.log"
+                     filePattern="/data1/proserv/LogAggregator/logs/archive/logAggregator-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout>
+                <Pattern>%d{MM/dd HH:mm:ss.SSS} %-5p %c{12} - %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="500 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="4"/>
+        </RollingFile>
+
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout>
+                <Pattern>%d{MM/dd HH:mm:ss.SSS} %-5p %c{12} - %m%n</Pattern>
+            </PatternLayout>
+        </Console>
+    </Appenders>
+
+    <Loggers>
+        <Root level="ERROR">
+            <AppenderRef ref="Console" level="error"/>
+            <AppenderRef ref="RollingFile" level="error"/>
+        </Root>
+        <Logger name="com.strongmail.proserv" level="debug" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="RollingFile"/>
+        </Logger>
+    </Loggers>
+</Configuration>

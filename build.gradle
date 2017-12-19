@@ -1,0 +1,35 @@
+group 'com.strongmail.proserv'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'groovy'
+apply plugin: 'java'
+apply plugin: 'application'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+mainClassName = "com.strongmail.proserv.LogConsolidator"
+
+applicationDefaultJvmArgs = [
+        "-DlogConfig=config/log4j2.xml"
+]
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.3.11'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.0.2'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.0.2'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-1.2-api', version: '2.0.2'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-jcl', version: '2.0.2'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.0.2'
+}
+
+run {
+    if (System.getProperty('DEBUG', 'false') == 'true') {
+        jvmArgs '-Xdebug',
+                '-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005'
+    }
+}
